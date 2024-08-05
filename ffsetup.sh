@@ -22,10 +22,14 @@ fi
 # Run Firefox headless to generate a profile
 $ff --headless >/dev/null 2>&1 &
 trap "pkill $ff" HUP INT QUIT TERM PWR EXIT
+sleep 3
 
 # Grab profile
 profile="$HOME/.mozilla/firefox/$(grep "Default=.*\.default-release" $HOME/.mozilla/firefox/profiles.ini | sed "s/Default=//")"
 [ ! -d "$profile" ] && die "Could not create/fetch Firefox profile"
 
 # Install Arkenfox user.js
-curl -sL "https://raw.githubusercontent.com/arkenfox/user.js/master/user.js" > "$profile"
+curl -sL "https://raw.githubusercontent.com/arkenfox/user.js/master/user.js" > "$profile/user.js"
+
+# Add extra settings to user.js
+curl -sL "https://git.sr.ht/~bpv/ffsetup/blob/master/extra.js" >> "$profile/extra.js"
