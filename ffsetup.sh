@@ -8,6 +8,9 @@ die() {
 	exit 1
 }
 
+# Check if script is run as root
+[ "$(id -u)" -eq 0 ] && die "Do NOT run script as root!"
+
 if which firefox >/dev/null 2>&1; then
 	ff=firefox
 elif which firefox-esr >/dev/null 2>&1; then

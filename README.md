@@ -3,7 +3,14 @@
 Firefox Setup Script
 
 Setup Firefox automatically with privacy respecting settings.
-This script automatically installs the Arkenfox user.js to firefox.
+This script automatically installs the Arkenfox user.js to Firefox.
+
+Just run:
+
+``` sh
+curl -fLO "https://git.sr.ht/~bpv/ffsetup/blob/master/ffsetup.sh"
+sh ffsetup.sh
+```
 
 ## Why?
 
