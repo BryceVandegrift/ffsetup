@@ -31,3 +31,10 @@ user_pref("dom.webnotifications.serviceworker.enabled", false);
 
 // Don't autodelete cookies on shutdown:
 user_pref("privacy.clearOnShutdown.cookies", false);
+
+// Disable beacon studies:
+user_pref("beacon.enabled", false);
+
+// Enable "Do Not Track":
+user_pref("privacy.donottrackheader.enabled", true);
+user_pref("privacy.donottrackheader.value", 1);
