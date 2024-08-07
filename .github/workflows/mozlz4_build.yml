@@ -1,0 +1,38 @@
+name: Build mozlz4 staticly linked using Musl
+
+on:
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+  # push:
+  #   branches: [ master ]
+  # pull_request:
+  #   branches: [ master ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      -uses: actions/checkout@v4
+
+      -name: Setup Alpine Linux
+       uses: jirutka/setup-alpine@v1
+       with:
+         packages: >
+           build-base
+           rust
+           cargo
+
+      -name: Build mozlz4
+       run: |
+         cd ffsetup/mozlz4
+         RUSTFLAGS="-C target-feature=+crt-static" cargo build --release
+         cd target/release
+         strip -s mozlz4
+         xz -z mozlz4
+       shell: alpine.sh {0}
+
+      -name: Store build
+       uses: actions/upload-artifact@v4
+       with:
+         name: x86_64-musl build
+         path: ffsetup/mozlz4/target/release/mozlz4.xz
