@@ -29,6 +29,7 @@ profile="$HOME/.mozilla/firefox/$(grep "Default=.*\.default-release" $HOME/.mozi
 [ ! -d "$profile" ] && die "Could not create/fetch Firefox profile"
 
 # Install Arkenfox user.js
+echo "Installing Arkenfox user.js..."
 curl -sL "https://raw.githubusercontent.com/arkenfox/user.js/master/user.js" > "$profile/user.js"
 
 # Add extra settings to user.js
@@ -39,6 +40,7 @@ tempff="$(mktemp -d)"
 trap "rm -rf $tempff" HUP INT QUIT TERM PWR EXIT
 
 # Install extensions
+echo "Installing browser extensions..."
 extensions="ublock-origin decentraleyes clearurls"
 IFS=' '
 mkdir "$profile/extensions/"
@@ -51,3 +53,19 @@ for x in $extensions; do
 	id="${id##*\"}"
 	mv "$tempff/$file" "$profile/extensions/$id.xpi" || die "Could not install an extension correctly"
 done
+
+# Change default search engine (for x86_64)
+arch="$(uname -m)"
+if [ $arch == "x86_64" ]; then
+	echo "Downloading mozlz4 temporarily..."
+	curl -sL "https://github.com/BryceVandegrift/ffsetup/releases/download/v0.1/mozlz4.xz" > "$tempff/mozlz4.xz"
+	xz -d "$tempff/mozlz4.xz"
+	chmod +x "$tempff/mozlz4"
+	echo "Changing default search engine..."
+	$tempff/mozlz4 "$profile/search.json.mozlz4" | sed 's/{}/{"hidden":true}/; s/\(Bing[^{]*{\)/\1"hidden":true/' > "$tempff/search.json"
+	$tempff/mozlz4 -z "$tempff/search.json" > "$profile/search.json.mozlz4"
+else
+	echo "Skipping search engine change..."
+fi
+
+echo "Done!"
