@@ -1,5 +1,8 @@
 // Extra settings to add on top of Arkenfox
 
+// Disable Firefox updates
+user_pref("app.update.auto", false);
+
 // Enable userContent.css:
 user_pref("toolkit.legacyUserProfileCustomizations.stylesheets", true);
 
@@ -38,3 +41,24 @@ user_pref("beacon.enabled", false);
 // Enable "Do Not Track":
 user_pref("privacy.donottrackheader.enabled", true);
 user_pref("privacy.donottrackheader.value", 1);
+
+// Disable signin and autofill info
+user_pref("signon.rememberSignons", false);
+user_pref("browser.formfill.enable", false);
+user_pref("extensions.formautofill.addresses.enabled", false);
+user_pref("extensions.formautofill.creditCards.enabled", false);
+
+// Disable Google safebrowsing
+user_pref("browser.safebrowsing.malware.enabled", false);
+user_pref("browser.safebrowsing.phishing.enabled", false);
+user_pref("browser.safebrowsing.blockedURIs.enabled", false);
+user_pref("browser.safebrowsing.provider.google4.gethashURL", "");
+user_pref("browser.safebrowsing.provider.google4.updateURL", "");
+user_pref("browser.safebrowsing.provider.google.gethashURL", "");
+user_pref("browser.safebrowsing.provider.google.updateURL", "");
+user_pref("browser.safebrowsing.provider.google4.dataSharingURL", "");
+user_pref("browser.safebrowsing.downloads.enabled", false);
+user_pref("browser.safebrowsing.downloads.remote.url", "");
+user_pref("browser.safebrowsing.downloads.remote.block_potentially_unwanted", false);
+user_pref("browser.safebrowsing.downloads.remote.block_uncommon", false);
+user_pref("browser.safebrowsing.allowOverride", false);

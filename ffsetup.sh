@@ -19,6 +19,9 @@ else
 	die "Firefox is not installed!"
 fi
 
+echo "ffsetup - A Firefox setup script"
+echo "Written by Bryce Vandegrift <https://brycevandegrift.xyz>"
+
 # Run Firefox headless to generate a profile
 $ff --headless >/dev/null 2>&1 &
 sleep 3
@@ -53,6 +56,17 @@ for x in $extensions; do
 	id="${id##*\"}"
 	mv "$tempff/$file" "$profile/extensions/$id.xpi" || die "Could not install an extension correctly"
 done
+
+# Enable extensions
+echo "Enabling extensions..."
+# Generate extensions.json
+$ff --headless >/dev/null 2>&1 &
+sleep 10
+pkill "$ff"
+
+# Edit prefs to enable extensions
+sed -i 's/\(seen":\)false/\1true/g; s/\(active":\)false\(,"userDisabled":\)true/\1true\2false/g' "$profile/extensions.json"
+sed -i 's/\(extensions\.pendingOperations", \)false/\1true/' "$profile/prefs.js"
 
 # Change default search engine (for x86_64)
 arch="$(uname -m)"
