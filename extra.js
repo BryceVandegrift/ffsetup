@@ -12,6 +12,9 @@ user_pref("identity.fxaccounts.enabled", false);
 // Disable Pocket:
 user_pref("extensions.pocket.enabled", false);
 
+// Disable screenshot extension
+user_pref("extensions.screenshots.disabled", true);
+
 // Disable advertisements in the search bar:
 user_pref("browser.urlbar.quicksuggest.enabled", false);
 user_pref("browser.urlbar.suggest.topsites", false);
@@ -62,3 +65,6 @@ user_pref("browser.safebrowsing.downloads.remote.url", "");
 user_pref("browser.safebrowsing.downloads.remote.block_potentially_unwanted", false);
 user_pref("browser.safebrowsing.downloads.remote.block_uncommon", false);
 user_pref("browser.safebrowsing.allowOverride", false);
+
+// Disable checking for updates
+user_pref("app.update.auto", false);

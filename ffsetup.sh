@@ -21,6 +21,7 @@ fi
 
 echo "ffsetup - A Firefox setup script"
 echo "Written by Bryce Vandegrift <https://brycevandegrift.xyz>"
+echo "\nStarting Firefox..."
 
 # Run Firefox headless to generate a profile
 $ff --headless >/dev/null 2>&1 &
@@ -44,7 +45,7 @@ trap "rm -rf $tempff" HUP INT QUIT TERM PWR EXIT
 
 # Install extensions
 echo "Installing browser extensions..."
-extensions="ublock-origin decentraleyes clearurls"
+extensions="ublock-origin decentraleyes clearurls privacy-redirect"
 IFS=' '
 mkdir "$profile/extensions/"
 for x in $extensions; do
