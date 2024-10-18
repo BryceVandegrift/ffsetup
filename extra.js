@@ -73,3 +73,6 @@ user_pref("app.update.auto", false);
 // Disable feedback reporting
 user_pref("browser.chrome.toolbar_tips", false);
 user_pref("extensions.abuseReport.enabled", false);
+
+// Disable DNS over HTTPS
+user_pref("network.trr.mode", 5);

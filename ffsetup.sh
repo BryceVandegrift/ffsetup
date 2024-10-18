@@ -21,7 +21,7 @@ fi
 
 echo "ffsetup - A Firefox setup script"
 echo "Written by Bryce Vandegrift <https://brycevandegrift.xyz>"
-echo "\nStarting Firefox..."
+printf "\nStarting Firefox...\n"
 
 # Run Firefox headless to generate a profile
 $ff --headless >/dev/null 2>&1 &
