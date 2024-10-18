@@ -6,7 +6,7 @@ user_pref("app.update.auto", false);
 // Enable userContent.css:
 user_pref("toolkit.legacyUserProfileCustomizations.stylesheets", true);
 
-// Diable Firefox accounts:
+// Disable Firefox accounts:
 user_pref("identity.fxaccounts.enabled", false);
 
 // Disable Pocket:
@@ -37,6 +37,7 @@ user_pref("dom.webnotifications.serviceworker.enabled", false);
 
 // Don't autodelete cookies on shutdown:
 user_pref("privacy.clearOnShutdown.cookies", false);
+user_pref("privacy.clearOnShutdown_v2.cookiesAndStorage", false);
 
 // Disable beacon studies:
 user_pref("beacon.enabled", false);
@@ -68,3 +69,7 @@ user_pref("browser.safebrowsing.allowOverride", false);
 
 // Disable checking for updates
 user_pref("app.update.auto", false);
+
+// Disable feedback reporting
+user_pref("browser.chrome.toolbar_tips", false);
+user_pref("extensions.abuseReport.enabled", false);
