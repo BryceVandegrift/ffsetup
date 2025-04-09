@@ -45,7 +45,7 @@ trap "rm -rf $tempff" HUP INT QUIT TERM PWR EXIT
 
 # Install extensions
 echo "Installing browser extensions..."
-extensions="ublock-origin decentraleyes clearurls privacy-redirect"
+extensions="ublock-origin decentraleyes clearurls"
 IFS=' '
 mkdir "$profile/extensions/"
 for x in $extensions; do
