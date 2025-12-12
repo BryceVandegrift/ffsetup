@@ -29,7 +29,7 @@ sleep 3
 pkill "$ff"
 
 # Grab profile
-profile="$HOME/.mozilla/firefox/$(grep "Default=.*\.default-release" $HOME/.mozilla/firefox/profiles.ini | sed "s/Default=//")"
+profile="$HOME/.mozilla/firefox/$(grep "Default=.*\.default-.*$" $HOME/.mozilla/firefox/profiles.ini | sed "s/Default=//")"
 [ ! -d "$profile" ] && die "Could not create/fetch Firefox profile"
 
 # Install Arkenfox user.js
