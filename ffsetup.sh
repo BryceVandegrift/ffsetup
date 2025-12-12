@@ -33,54 +33,17 @@ profile="$HOME/.mozilla/firefox/$(grep "Default=.*\.default-release" $HOME/.mozi
 [ ! -d "$profile" ] && die "Could not create/fetch Firefox profile"
 
 # Install Arkenfox user.js
-echo "Installing Arkenfox user.js..."
+echo "Installing Arkenfox and custom user.js..."
 curl -sL "https://raw.githubusercontent.com/arkenfox/user.js/master/user.js" > "$profile/user.js"
 
 # Add extra settings to user.js
 curl -sL "https://git.sr.ht/~bpv/ffsetup/blob/master/extra.js" >> "$profile/user.js"
 
-# Create temp directory
-tempff="$(mktemp -d)"
-trap "rm -rf $tempff" HUP INT QUIT TERM PWR EXIT
+# Create Firefox policies directory and put policies.json in it
+echo "Installing polcies.json..."
+[ ! -d "/etc/firefox/policies" ] && su -c "mkdir -p /etc/firefox/policies"
 
-# Install extensions
-echo "Installing browser extensions..."
-extensions="ublock-origin decentraleyes clearurls"
-IFS=' '
-mkdir "$profile/extensions/"
-for x in $extensions; do
-	extensionurl="$(curl -sL "https://addons.mozilla.org/en-US/firefox/addon/${x}/" | grep -o 'https://addons.mozilla.org/firefox/downloads/file/[^"]*')"
-	file="${extensionurl##*/}"
-	curl -sL "$extensionurl" > "$tempff/$file"
-	id="$(unzip -p "$tempff/$file" manifest.json | grep "\"id\"")"
-	id="${id%\"*}"
-	id="${id##*\"}"
-	mv "$tempff/$file" "$profile/extensions/$id.xpi" || die "Could not install an extension correctly"
-done
-
-# Enable extensions
-echo "Enabling extensions..."
-# Generate extensions.json
-$ff --headless >/dev/null 2>&1 &
-sleep 10
-pkill "$ff"
-
-# Edit prefs to enable extensions
-sed -i 's/\(seen":\)false/\1true/g; s/\(active":\)false\(,"userDisabled":\)true/\1true\2false/g' "$profile/extensions.json"
-sed -i 's/\(extensions\.pendingOperations", \)false/\1true/' "$profile/prefs.js"
-
-# Change default search engine (for x86_64)
-arch="$(uname -m)"
-if [ $arch == "x86_64" ]; then
-	echo "Downloading mozlz4 temporarily..."
-	curl -sL "https://github.com/BryceVandegrift/ffsetup/releases/download/v0.1/mozlz4.xz" > "$tempff/mozlz4.xz"
-	xz -d "$tempff/mozlz4.xz"
-	chmod +x "$tempff/mozlz4"
-	echo "Changing default search engine..."
-	$tempff/mozlz4 "$profile/search.json.mozlz4" | sed 's/{}/{"hidden":true}/; s/\(Bing[^{]*{\)/\1"hidden":true/' > "$tempff/search.json"
-	$tempff/mozlz4 -z "$tempff/search.json" > "$profile/search.json.mozlz4"
-else
-	echo "Skipping search engine change..."
-fi
+echo "Please enter password to install policies.json system-wide:"
+su -c "cp policies.json /etc/firefox/policies/"
 
 echo "Done!"
