@@ -20,7 +20,7 @@ else
 fi
 
 echo "ffsetup - A Firefox setup script"
-echo "Written by Bryce Vandegrift <https://brycevandegrift.xyz>"
+echo "Written by Bryce Vandegrift <https://brycev.com>"
 printf "\nStarting Firefox...\n"
 
 # Run Firefox headless to generate a profile
@@ -28,8 +28,12 @@ $ff --headless >/dev/null 2>&1 &
 sleep 3
 pkill "$ff"
 
+# Get Firefox profile directory
+ffdir="${XDG_CONFIG_HOME:-$HOME/.config}/mozilla/firefox"
+[ -d "$ffdir" ] || ffdir="$HOME/.mozilla/firefox"
+
 # Grab profile
-profile="$HOME/.mozilla/firefox/$(grep "Default=.*\.default-.*$" $HOME/.mozilla/firefox/profiles.ini | sed "s/Default=//")"
+profile="$ffdir/$(grep "Default=.*\.default-.*$" $HOME/.mozilla/firefox/profiles.ini | sed "s/Default=//")"
 [ ! -d "$profile" ] && die "Could not create/fetch Firefox profile"
 
 # Install Arkenfox user.js
