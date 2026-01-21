@@ -33,7 +33,7 @@ ffdir="${XDG_CONFIG_HOME:-$HOME/.config}/mozilla/firefox"
 [ -d "$ffdir" ] || ffdir="$HOME/.mozilla/firefox"
 
 # Grab profile
-profile="$ffdir/$(grep "Default=.*\.default-.*$" $HOME/.mozilla/firefox/profiles.ini | sed "s/Default=//")"
+profile="$ffdir/$(grep "Default=.*\.default-.*$" "$ffdir/profiles.ini" | sed "s/Default=//")"
 [ ! -d "$profile" ] && die "Could not create/fetch Firefox profile"
 
 # Install Arkenfox user.js
